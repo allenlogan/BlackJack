@@ -1,9 +1,9 @@
 # BlackJack Simulation
 
-Project ill be working on over the uni break
+A blackjack game
 
-- [ ] Deal the hands
-- [ ] Add the cards together
-- [ ] Deal another card if the user hits
-- [ ] BlackJack functionallity
-- [ ] More to come....
+- [x] Deal the hands
+- [x] Add the cards together
+- [x] Deal another card if the user hits
+- [x] BlackJack functionallity
+- [ ] Add the percentage rate of win/loss 
