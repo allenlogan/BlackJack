@@ -22,45 +22,21 @@ def deck():
 # Deal out the users cards
 
 
-def user():
+def player(players):
     for i in range(2):
-        userhand.append(deck())
-    return userhand
+        players.append(deck())
+    return players
 
 # Count the users cards
 
 
-def countUser():
-    for player in userhand:
+def countCards(players):
+    for player in players:
         result = 0
         for cardname in player:
             result += cards[cardname]
     total_result = 0
-    for hand in userhand:
-        result = 0
-        for cardname in hand:
-            result += cards[cardname]
-        total_result += result
-    return total_result
-
-# Deal the dealer the first card
-
-
-def dealer():
-    for i in range(1):
-        dealerHand.append(deck())
-    return dealerHand
-
-# Count the dealers cards
-
-
-def countDealer():
-    for player in dealerHand:
-        result = 0
-        for cardname in player:
-            result += cards[cardname]
-        total_result = 0
-    for hand in dealerHand:
+    for hand in players:
         result = 0
         for cardname in hand:
             result += cards[cardname]
@@ -68,19 +44,11 @@ def countDealer():
     return total_result
 
 
-# Append a card to when the user wants a hit
-def userHit():
+# Append a card to when the player wants a hit
+def hits(players):
     for i in range(1):
-        userhand.append(deck())
-    return userhand
-
-# Keep adding cards to the dealer until either bust or stand is initiated
-
-
-def dealerHit():
-    for i in range(1):
-        dealerHand.append(deck())
-    return dealerHand
+        players.append(deck())
+    return players
 
 # Main code to run the game
 def play():
@@ -88,48 +56,48 @@ def play():
     print("---Welcome To BlackJack---\n")
 
     # Print out the cards to the terminal
-    print("Users hand:", str(user()).replace('[', '').replace(
-        ']', '').replace("'", ''), "\nCard Total:", countUser())
-    print("Dealers hand:", str(dealer()).replace('[', '').replace(
-        ']', '').replace("'", ''), "\nCard Total:", countDealer())
+    print("Users hand:", str(player(userhand)).replace('[', '').replace(
+        ']', '').replace("'", ''), "\nCard Total:", countCards(userhand))
+    print("Dealers hand:", str(hits(dealerHand)).replace('[', '').replace(
+        ']', '').replace("'", ''), "\nCard Total:", countCards(dealerHand))
 
-    # User card counting configuration
-    while countUser() < 21:
-        # Ask if the user wants to hit or stand
+    # player card counting configuration
+    while countCards(userhand) < 21:
+        # Ask if the player wants to hit or stand
         hit = input("\nWould you like to hit or stand? h or s\n")
         time.sleep(0.5)
         if hit == "h":
-            print("Users new hand:", str(userHit()).replace('[', '').replace(
-                ']', '').replace("'", ''), "\nCard total after hit:", countUser())
+            print("Users new hand:", str(hits(userhand)).replace('[', '').replace(
+                ']', '').replace("'", ''), "\nCard total after hit:", countCards(userhand))
         if hit == "s":
-            print("User stands on: ", countUser())
+            print("User stands on: ", countCards(userhand))
             break
-        if countUser() > 21:
+        if countCards(userhand) > 21:
             print("BUSTED! Too many cards.")
             print("Dealer wins.")
             return userBust
-        if countUser() == 21:
+        if countCards(userhand) == 21:
             print("Congratulations you got BlackJack :)")
 
     # Dealer card counting configuration
-    while countDealer() <= 17:
+    while countCards(dealerHand) <= 17:
         time.sleep(0.5)
-        print("Dealers new hand:", str(dealerHit()).replace('[', '').replace(
-            ']', '').replace("'", ''), "\nDealers total:", countDealer())
-        if countDealer() > 21:
+        print("Dealers new hand:", str(hits(dealerHand)).replace('[', '').replace(
+            ']', '').replace("'", ''), "\nDealers total:", countCards(dealerHand))
+        if countCards(dealerHand) > 21:
             print("The dealer went bust!")
             print("Congratulations you win!")
-            dealerBust = True
-        if countDealer() == 21:
+        if countCards(dealerHand) == 21:
             print("Dealer got BlackJack, maybe next time :(")
 
     # Print if it there is a push
-    if countUser() == countDealer():
+    if countCards(userhand) == countCards(dealerHand):
         print("Dealer has the same as user. Push.")
-    if countDealer() > countUser() and countDealer() < 21:
+    if countCards(dealerHand) > countCards(userhand) and countCards(dealerHand) < 21:
         print("Dealer wins, sorry.")
-    if countDealer() < countUser() and countUser() < 21:
+    if countCards(dealerHand) < countCards(userhand) and countCards(userhand) < 21:
         print("Congratulations you win!")
 
+    print("--- Thanks for playing ---")
 
 play()
